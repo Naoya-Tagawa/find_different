@@ -48,7 +48,7 @@ def transform(request, image_id=0):
                 'id': upload_img.id,
                 'setting_form': form,
                 'original_url': upload_img.img.url,
-                'result_url': upload_img.result.url
+                'result_url': upload_img.result_img.url
             }
 
             return render(request, 'fd_app/transform.html', params)

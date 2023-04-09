@@ -33,6 +33,9 @@
         </form>
         {% endif %}
     </div>
+    {%  if upload_form.img.url is not None %}
+    <h2> {{upload_form.img.url}} </h2>
     <img src="{{upload_form.img.url}}" width="500"height="500">
+    {% endif %}
 </body>
 </html>

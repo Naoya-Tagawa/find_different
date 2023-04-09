@@ -18,10 +18,14 @@ class UploadImage(models.Model):
         #この content にはPIL 画像オブジェクトを直接指定することはできない
         #なのでいったんio.BytesIOに対してPIL画像を保存し、contentにio.BytesIOを指定
     
-        buffer = io.BytesIO
+        buffer = io.BytesIO()
         ret_img.save(fp=buffer,format=org_img.format)
-        
-        self.result.delete()
-        self.result.save(name=self.img.name,content=buffer)
+        #画像ファイルの削除
+        self.result_img.delete()
+        #レコード(DB)の削除
+        self.delete()
+        #id = self.result_img.earliest("created_on")
+        #id.result_img.delete()
+        self.result_img.save(name=self.img.name,content=buffer)
         
         

@@ -11,18 +11,19 @@
 <body>
     <h1>{{title}}</hi>
     <div>
-        <h2>ID:{{id}}の画像<h2>
-        <img src = "{{original_url}}">
+        <h2>ID:{{id}}の画像(入力)<h2>
+        <img src = "{{original_url}}"width="500"height="500">
         {% if result_url == '' %}
-        <img src = "{{original_url}}">
+        <img src = "{{original_url}}"width="500"height="500">
         {% else %}
-        <img src ="{{result_url}}">
+        <img src ="{{result_url}}"width="500"height="500">
         {% endif %}
         <form action = "{% url 'transform' id %}" method ="post">
             {% csrf_token %}
             {{setting_form.as_p}}
-            <p><input type="submit" value = "go!!"></p>
+            <p><input type="submit" style="height:200px;" value = "go!!"></p>
         </form>
+        <a href="{% url 'index' %}">トップに戻る</a>
     </div>
 </body>
 </html>
