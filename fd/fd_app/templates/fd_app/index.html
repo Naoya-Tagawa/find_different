@@ -19,15 +19,19 @@
             <p>{{ upload_form.as_p }}</p>
             <p><input type="submit" value="アップロード"></p>
         </form>
+        {% if id is not None %}
         <form action="{% url 'preview' id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <p><input type="submit" value="画像表示"></p>
         </form>
+        {% endif %}
+
+        {% if id is not None %}
         <form action="{% url 'transform' id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <p><input type="submit" value="画像処理"></p>
         </form>
-        
+        {% endif %}
     </div>
     <img src="{{upload_form.img.url}}" width="500"height="500">
 </body>
