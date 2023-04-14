@@ -13,7 +13,7 @@ def index(request):
         form = Upload(request.POST,request.FILES)
         if form.is_valid():
             upload_img = form.save()
-            upload_img.img.delete()
+            #upload_img.img.delete()
             
             params['id'] = upload_img.id
     return render(request,'fd_app/index.html',params)

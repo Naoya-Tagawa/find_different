@@ -23,7 +23,7 @@ class UploadImage(models.Model):
         #画像ファイルの削除
         self.result_img.delete()
         #レコード(DB)の削除
-        self.delete()
+        #self.delete()
         #id = self.result_img.earliest("created_on")
         #id.result_img.delete()
         self.result_img.save(name=self.img.name,content=buffer)
