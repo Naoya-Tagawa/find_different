@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+    <div>
+        {% if id is not None %}
+        <p>画像のIDは {{id}} です</p>
+        {% endif %}
+    </div>
+    <div>
+        <h2>画像を登録する</h2>
+        <form action="{% url 'home' id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ upload_form.as_p }}</p>
+            <p><input type="submit" value="アップロード"></p>
+        </form>
+        {% if id is not None %}
+        <form action="{% url 'preview' id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p><input type="submit" value="画像表示"></p>
+        </form>
+        {% endif %}
+
+        {% if id is not None %}
+        <form action="{% url 'transform' id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p><input type="submit" value="画像処理"></p>
+        </form>
+        {% endif %}
+    </div>
+    {%  if url is not None %}
+    <h2> {{url}} </h2>
+    <img src="{{url}}" width="500"height="500">
+    {% endif %}
+</body>
+</html>

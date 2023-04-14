@@ -16,13 +16,34 @@ def index(request):
             #upload_img.img.delete()
             
             params['id'] = upload_img.id
-    return render(request,'fd_app/index.html',params)
+    return render(request,'fd_app/home.html',params)
+
+def home(request,image_id):
+    upload_img = get_object_or_404(UploadImage,id = image_id)
+    
+    params = {
+        'title':'画像のアップロード',
+        'upload_form':Upload(),
+        'id':image_id,
+        'url':upload_img.img.url,
+    }
+    
+    if (request.method == 'POST'):
+        form = Upload(request.POST,request.FILES)
+        if form.is_valid():
+            upload_img = form.save()
+            #upload_img.img.delete()
+            
+            params['id'] = upload_img.id
+            params['url'] = upload_img.img.url
+            
+    return render(request,'fd_app/home.html',params)
 
 def preview(request,image_id):
     print(image_id)
     form = Upload(request.POST,request.FILES)
-    upload_img = UploadImage.objects.get(id = image_id)
-    #upload_img = get_object_or_404(UploadImage,id=image_id)
+    #upload_img = UploadImage.objects.get(id = image_id)
+    upload_img = get_object_or_404(UploadImage,id=image_id)
     params = {
         'title': '画像の表示',
         'id':upload_img.id,
