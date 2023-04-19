@@ -11,7 +11,19 @@ class Upload(forms.ModelForm):
     class Meta:
         model = UploadImage
         fields = ['img']#model.pyでimgが変数なのでimageとしてはいけない
-        
+        #fields = ['result_img']
 class SettingForm(forms.Form):
     angle = forms.IntegerField()
     gray = forms.BooleanField(required=False)
+    
+#input用フォーム
+class input_img(forms.ModelForm):
+    class Meta:
+        model = UploadImage
+        fields = ['img']
+        
+#output用フォーム
+class output_img(forms.ModelForm):
+    class Meta:
+        model = UploadImage
+        fields = ['result_img']

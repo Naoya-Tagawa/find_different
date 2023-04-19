@@ -12,12 +12,32 @@
         {% endif %}
     </div>
     <div>
+        {% if id is  None %}
+        
+        <form action="{% url 'index'  %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ upload_form.as_p }}</p>
+            <p><input type="submit" value="アップロード"></p>
+        </form>
+        {% endif %}
+
+        {% if id is  None %}
+        <form action="{% url 'index'  %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ upload_form.as_p }}</p>
+            <p><input type="submit" value="アップロード"></p>
+        </form>
+        {% endif %}
+    </div>
+    <div>
+        {% if id is not None %}
         <h2>画像を登録する</h2>
         <form action="{% url 'home' id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <p>{{ upload_form.as_p }}</p>
             <p><input type="submit" value="アップロード"></p>
         </form>
+        {% endif %}
         {% if id is not None %}
         <form action="{% url 'preview' id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -33,8 +53,11 @@
         {% endif %}
     </div>
     {%  if url is not None %}
-    <h2> {{url}} </h2>
     <img src="{{url}}" width="500"height="500">
+    {% endif %}
+
+    {%  if url is not None %}
+    <a href="{% url 'input'   %}">画像処理へ</a>
     {% endif %}
 </body>
 </html>

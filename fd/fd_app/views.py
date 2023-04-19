@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404
-from .forms import Upload,SettingForm
+from .forms import Upload,SettingForm,input_img,output_img
 from .models import UploadImage
 
 def index(request):
@@ -7,6 +7,7 @@ def index(request):
         'title':'画像のアップロード',
         'upload_form':Upload(),
         'id':None,
+        'url':None,
     }
     
     if (request.method == 'POST'):
@@ -16,8 +17,10 @@ def index(request):
             #upload_img.img.delete()
             
             params['id'] = upload_img.id
+            params['url'] = upload_img.url
+        print(params['id'])
     return render(request,'fd_app/home.html',params)
-
+#renderすることでhome.htmlを表示させている。最初に出るのはindex
 def home(request,image_id):
     upload_img = get_object_or_404(UploadImage,id = image_id)
     
@@ -87,3 +90,48 @@ def transform(request, image_id=0):
 
     return render(request, 'fd_app/transform.html', params)
 # Create your views here.
+
+def input_form(request):
+    params = {
+        'title':'間違い探し',
+        'input_upload':input_img(),
+        'output_upload':output_img(),
+        'input_id':None,
+        'input_url':None,
+        'output_id':None,
+        'output_url':None,
+    }
+    
+    if (request.method == 'POST'):
+        form = input_img(request.POST,request.FILES)
+        if form.is_valid():
+            upload_img = form.save()
+            #upload_img.img.delete()
+            
+            params['input_id'] = upload_img.id
+            params['input_url'] = upload_img.url
+        #print(params['id'])
+    return render(request,'fd_app/find.html',params)
+
+#form.as_pは「formの内容をpタグで囲って表示
+def output_form(request):
+    params = {
+        'title':'間違い探し',
+        'input_upload':input_img(),
+        'output_upload':output_img(),
+        'input_id':None,
+        'input_url':None,
+        'output_id':None,
+        'output_url':None,
+    }
+    
+    if (request.method == 'POST'):
+        form = output_img(request.POST,request.FILES)
+        if form.is_valid():
+            upload_img = form.save()
+            #upload_img.img.delete()
+            
+            params['output_id'] = upload_img.id
+            params['output_url'] = upload_img.url
+        print(params['output_id'])
+    return render(request,'fd_app/find.html',params)

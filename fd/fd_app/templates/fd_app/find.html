@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang = "ja">
+<head>
+    <meta charset = "utf-8">
+    <title>{{title}}</title>
+
+
+
+</head>
+
+<body>
+    <h1>{{title}}</hi>
+    <div>
+        {% if input_upload.id is not  None %}
+        <h2>入力画像({{input_upload.id}})<h2>
+        <img src = "{{input_upload.url}}"width="500"height="500">
+        {% endif %}
+
+        {% if output_id is not None %}
+        <h2>出力画像({{output_id}})<h2>
+        <img src = "{{output_url}}"width="500"height="500">
+        {% endif %}
+
+
+        
+        <form action = "{% url 'input'  %}" method ="post">
+            {% csrf_token %}
+            {{input_upload.as_p}}
+            <p><input type="submit" style="height:200px;" value = "入力画像選択"></p>
+        </form>
+
+        <form action = "{% url 'output'  %}" method ="post">
+            {% csrf_token %}
+            {{output_upload.as_p}}
+            <p><input type="submit" style="height:200px;" value = "出力画像選択"></p>
+        </form>
+
+        <a href="{% url 'home'  input_id %}">トップに戻る</a>
+    </div>
+</body>
+</html>
