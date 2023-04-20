@@ -21,13 +21,7 @@
         </form>
         {% endif %}
 
-        {% if id is  None %}
-        <form action="{% url 'index'  %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <p>{{ upload_form.as_p }}</p>
-            <p><input type="submit" value="アップロード"></p>
-        </form>
-        {% endif %}
+ 
     </div>
     <div>
         {% if id is not None %}

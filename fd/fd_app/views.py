@@ -17,7 +17,7 @@ def index(request):
             #upload_img.img.delete()
             
             params['id'] = upload_img.id
-            params['url'] = upload_img.url
+            #params['url'] = upload_img.
         print(params['id'])
     return render(request,'fd_app/home.html',params)
 #renderすることでhome.htmlを表示させている。最初に出るのはindex
