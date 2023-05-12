@@ -45,6 +45,13 @@
             <p><input type="submit" value="画像処理"></p>
         </form>
         {% endif %}
+
+        {% if id is not None %}
+        <form action="{% url 'delete' id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p><input type="submit" value="画像を削除"></p>
+        </form>
+        {% endif %}
     </div>
     {%  if url is not None %}
     <img src="{{url}}" width="500"height="500">

@@ -17,8 +17,8 @@ def index(request):
             #upload_img.img.delete()
             
             params['id'] = upload_img.id
-            #params['url'] = upload_img.
-        print(params['id'])
+            params['url'] = upload_img.img.url
+        print(params['url'])
     return render(request,'fd_app/home.html',params)
 #renderすることでhome.htmlを表示させている。最初に出るのはindex
 def home(request,image_id):
@@ -39,6 +39,7 @@ def home(request,image_id):
             
             params['id'] = upload_img.id
             params['url'] = upload_img.img.url
+            #delete(upload_img.id)
             
     return render(request,'fd_app/home.html',params)
 
@@ -98,8 +99,8 @@ def input_form(request):
         'output_upload':output_img(),
         'input_id':None,
         'input_url':None,
-        'output_id':None,
-        'output_url':None,
+        #'output_id':None,
+        #'output_url':None,
     }
     
     if (request.method == 'POST'):
@@ -107,9 +108,9 @@ def input_form(request):
         if form.is_valid():
             upload_img = form.save()
             #upload_img.img.delete()
-            
+            print("gggggggggggggggg")
             params['input_id'] = upload_img.id
-            params['input_url'] = upload_img.url
+            params['input_url'] = upload_img.img.url
         #print(params['id'])
     return render(request,'fd_app/find.html',params)
 
@@ -120,7 +121,7 @@ def output_form(request):
         'input_upload':input_img(),
         'output_upload':output_img(),
         'input_id':None,
-        'input_url':None,
+        #'input_url':None,
         'output_id':None,
         'output_url':None,
     }
@@ -132,6 +133,16 @@ def output_form(request):
             #upload_img.img.delete()
             
             params['output_id'] = upload_img.id
-            params['output_url'] = upload_img.url
+            params['output_url'] = upload_img.result_img.url
+            params['input_id'] = upload_img.id
         print(params['output_id'])
     return render(request,'fd_app/find.html',params)
+
+def delete(request,image_id):
+    if (request.method == 'POST'):
+        upload_img = get_object_or_404(UploadImage,id=image_id)
+        upload_img.img.delete()
+        upload_img.delete()
+        
+    return render(request,'fd_app/delete_img.html')
+    
