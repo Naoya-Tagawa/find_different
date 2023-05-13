@@ -28,6 +28,8 @@ DEBUG = False
 ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', 'Naoyamabo.pythonanywhere.com']
 
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -111,7 +113,12 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
+# STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, "static"),
+# )
 
+# こちらに変更する
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
