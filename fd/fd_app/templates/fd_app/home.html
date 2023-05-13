@@ -42,7 +42,7 @@
         {% if id is not None %}
         <form action="{% url 'transform' id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <p><input type="submit" value="画像処理"></p>
+            <p><input type="submit" value="グレースケール+ 回転処理"></p>
         </form>
         {% endif %}
 
@@ -52,13 +52,13 @@
             <p><input type="submit" value="画像を削除"></p>
         </form>
         {% endif %}
+        {%  if url is not None %}
+        <a href="{% url 'input'   %}">間違い探し処理へ</a>
+        {% endif %}
     </div>
     {%  if url is not None %}
     <img src="{{url}}" width="500"height="500">
     {% endif %}
 
-    {%  if url is not None %}
-    <a href="{% url 'input'   %}">画像処理へ</a>
-    {% endif %}
 </body>
 </html>

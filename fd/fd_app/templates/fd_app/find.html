@@ -12,30 +12,54 @@
     <h1>{{title}}</hi>
     <div>
         {% if input_id is not  None %}
-        <h2>入力画像({{input_id}})<h2>
+        <h2>入力画像1<h2>
         <img src = "{{input_url}}"width="500"height="500">
         {% endif %}
 
-        {% if output_id is not None %}
-        <h2>出力画像({{output_id}})<h2>
+        {% if output_id is not None and deal is None %}
+        <h2>入力画像2<h2>
         <img src = "{{output_url}}"width="500"height="500">
         {% endif %}
 
 
-        
-        <form action = "{% url 'input'  %}" method ="post" enctype="multipart/form-data">
+        {% if deal is None%}
+            {% if input_id is  None and output_id is None%}
+            <form action = "{% url 'input'  %}" method ="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{input_upload.as_p}}
+                <p><input type="submit" style="height:200px;" value = "入力画像1送信"></p>
+            </form>
+            {% endif %}
+            {% if output_id is  None and input_id is not None%}
+                <form action = "{% url 'output'  input_id %}" method ="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{output_upload.as_p}}
+                    <p><input type="submit" style="height:200px;" value = "入力画像2送信"></p>
+                </form>
+            {% endif %}
+
+            {% if output_id is not None and  input_id is not None %}
+                    <form action="{% url 'fd' input_id  output_id %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <p><input type="submit" value="間違い探し実行"></p>
+                    </form>
+            {% endif %}
+        {% endif %}
+        {%   if deal is not None   %}
+        <h2>出力画像<h2>
+            <img src = "{{output_url}}"width="500"height="500">
+
+        {% endif %}
+
+        {% if deal is not None %}
+        <form action="{% url 'input'%}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{input_upload.as_p}}
-            <p><input type="submit" style="height:200px;" value = "入力画像選択"></p>
+            <p><input type="submit" value="もう一度やる"></p>
         </form>
 
-        <form action = "{% url 'output'  %}" method ="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{output_upload.as_p}}
-            <p><input type="submit" style="height:200px;" value = "出力画像選択"></p>
-        </form>
 
-        <a href="{% url 'home'  input_id %}">トップに戻る</a>
+        {% endif %}
     </div>
+    <a href="{% url 'index' %}">トップに戻る</a>
 </body>
 </html>

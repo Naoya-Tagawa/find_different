@@ -1,7 +1,10 @@
 from django.shortcuts import render,get_object_or_404
 from .forms import Upload,SettingForm,input_img,output_img
 from .models import UploadImage
-
+import cv2
+import numpy as np
+from PIL import Image
+import io
 def index(request):
     params = {
         'title':'画像のアップロード',
@@ -101,6 +104,7 @@ def input_form(request):
         'input_url':None,
         #'output_id':None,
         #'output_url':None,
+        'deal':None,
     }
     
     if (request.method == 'POST'):
@@ -115,17 +119,19 @@ def input_form(request):
     return render(request,'fd_app/find.html',params)
 
 #form.as_pは「formの内容をpタグで囲って表示
-def output_form(request):
+def output_form(request,image_id):
     params = {
-        'title':'間違い探し',
+        'title':'間違い探し(支援)',
         'input_upload':input_img(),
         'output_upload':output_img(),
         'input_id':None,
-        #'input_url':None,
+        'input_url':None,
         'output_id':None,
         'output_url':None,
+        'deal':None,
     }
-    
+    inputed_img = get_object_or_404(UploadImage,id=image_id)
+    print(type(inputed_img))
     if (request.method == 'POST'):
         form = output_img(request.POST,request.FILES)
         if form.is_valid():
@@ -134,7 +140,8 @@ def output_form(request):
             
             params['output_id'] = upload_img.id
             params['output_url'] = upload_img.result_img.url
-            params['input_id'] = upload_img.id
+            params['input_id'] = image_id
+            params['input_url'] = inputed_img.img.url
         print(params['output_id'])
     return render(request,'fd_app/find.html',params)
 
@@ -145,4 +152,29 @@ def delete(request,image_id):
         upload_img.delete()
         
     return render(request,'fd_app/delete_img.html')
+
+def find_different(request,input_id,input_url2):
+    params = {
+        'title':'白く浮かび上がるところを参考に間違い探しをしてください',
+        'input_upload':input_img(),
+        'output_upload':output_img(),
+        'input_id':None,
+        'input_url':None,
+        'output_id':None,
+        'output_url':None,
+        'deal':None,
+    }
+    if (request.method == 'POST'):
+        input_image1 = get_object_or_404(UploadImage,id=input_id)
+        input_image2 = get_object_or_404(UploadImage,id=input_url2)
+        
+        print(input_image2.result_img.url)
+        input_image1.find_difference(input_image2.result_img.url)
     
+        params['output_url'] = input_image1.result_img.url
+        params['deal'] = 1
+        params['input_id'] = input_id
+        params['input_url'] = input_image1.img.url
+        
+    return render(request,'fd_app/find.html',params)
+            
