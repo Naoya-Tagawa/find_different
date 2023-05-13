@@ -1,4 +1,9 @@
 media
 db.sqlite3
 local_settings.py
+myvenv
+.vscode
+__pycache__
+*.pyc
+.DS_Store
 .env
