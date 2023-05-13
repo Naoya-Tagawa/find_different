@@ -1,0 +1,1 @@
+web:gunicorn find_difference.wsgi --log-file -

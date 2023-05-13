@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
+from dj_database_url import parse as dburl
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +27,7 @@ SECRET_KEY = "django-insecure-isuri5i--c5&iat6dzfjd(8as$x^++a_z^&u^q5mplqsx4!6ej
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', 'Naoyamabo.pythonanywhere.com']
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -77,11 +79,11 @@ WSGI_APPLICATION = "fd.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+default_dburl = 'sqlite:///' + str(BASE_DIR/"db.sqlite3")
+
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": config('DATABASE_URL',default=default_dburl,cast=dburl),
 }
 
 
@@ -120,7 +122,7 @@ USE_TZ = True
 
 # こちらに変更する
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "media/")
+STATIC_ROOT = str(BASE_DIR/'staticfiles')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
